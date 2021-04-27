@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "compile": "rm index && make index"
+    }
+}

@@ -1,20 +1,18 @@
 #include <stdio.h>
+#include <ncurses.h>
+#include <unistd.h>
+#include <errno.h>
+#include <termios.h>
 
 #include "snake.c"
 #include "game.c"
 
-enum boolean
-{
-    false = 0,
-    true = 1
-};
-
 void game();
-void drawScreen(SnakeHead snake);
-Surface surface;
+void drawScreen();
+Surface SURFACE;
 
 int main()
-{
+{   
     game();
 
     return 0;
@@ -22,41 +20,70 @@ int main()
 
 void game()
 {
-    surface.height = 10;
-    surface.width = 20;
+    SURFACE = createSurface(20, 10);
 
-    SnakeHead snake = createSnake(4);
-    
-    clock_t oldTime = clock();
+    SnakeHead snake = createSnake(4, SURFACE);
+    Apple apple = createApple(SURFACE);
+    snake->direction = RIGHT;
+
+    nonblock(NB_ENABLE);
+
     while (true)
-    {
-        // drawScreen(snake);
+    { 
+        moveSnake(snake, SURFACE);
+        
+        if (snake->eat)
+        {
+            apple = createApple(SURFACE);
 
-        clock_t deltaTime= clock() - oldTime;
-        double fps = (1.0 / deltaTime) * 1000;
-        oldTime = clock();
-        delay(1);
+            while(SURFACE.units[apple.x][apple.y] == '@' ||
+                SURFACE.units[apple.x][apple.y] == '#')
+            {
+                apple = createApple(SURFACE);
+            }
+        }
 
-        printf("%.2ld\n", clock());
+        SURFACE = render(SURFACE, snake, apple);
+        drawScreen();
+        checkColision(snake);
+
+        int key = editorReadKey();
+        
+        switch (key)
+        {
+            case UP:
+                if (snake->direction != DOWN)
+                    snake->direction = key;
+                break;
+            case DOWN:
+                if (snake->direction != UP)
+                    snake->direction = key;
+                break;
+            case RIGHT:
+                if (snake->direction != LEFT)
+                    snake->direction = key;
+                break;
+            case LEFT:
+                if (snake->direction != RIGHT)
+                    snake->direction = key;
+                break;
+        } 
+
+        delayMs(200);
     }
+
+    nonblock(NB_DISABLE);
 }
 
-void drawScreen(SnakeHead snake)
+void drawScreen()
 {
-    system("clear");
+    refreshScreen();
 
-    for (int y = 0; y < surface.height; y++)
+    for (int y = 0; y < SURFACE.height; y++)
     {
-        for (int x = 0; x < surface.width; x++)
+        for (int x = 0; x < SURFACE.width; x++)
         {
-            if (x == snake->x && y == snake->y)
-            {
-                printf("#");
-            }
-            else
-            {
-                printf(" ");
-            }
+            printf("%c", SURFACE.units[x][y]);
         }
         printf("\n");
     }
