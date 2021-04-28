@@ -12,7 +12,7 @@ Int createInt(int value) {
     return _int;
 }
 
-Float createFloat(float value)  {
+Float createFloat(float value) {
     Float _float;
     _float.value = value;
     _float.type = "Float";
@@ -20,7 +20,7 @@ Float createFloat(float value)  {
     return _float;
 }
 
-Char createChar(char value)  {
+Char createChar(char value) {
     Char _char;
     _char.value = value;
     _char.type = "Char";
@@ -28,7 +28,7 @@ Char createChar(char value)  {
     return _char;
 }
 
-String createString(char * value)  {
+String createString(char * value) {
     String _string;
     _string.value = value;
     _string.type = "String";
@@ -41,17 +41,17 @@ void printInt(Int object) {
     printf("\n"); 
 }
 
-void printFloat(Float object)  {
+void printFloat(Float object) {
     printf("%f", object.value);
     printf("\n"); 
 }
 
-void printChar(Char object)  {
+void printChar(Char object) {
     printf("%c", object.value);
     printf("\n"); 
 }
 
-void printString(String object)  {
+void printString(String object) {
     printf("%s", object.value);
     printf("\n"); 
 }
