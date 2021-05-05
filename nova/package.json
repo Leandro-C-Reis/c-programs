@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "make": "rm main && make main"
+    }
+}

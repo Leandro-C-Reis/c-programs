@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #define STRING "string"
 #define INT "int"
@@ -15,6 +16,11 @@ typedef char * string;
 typedef struct line * Line;
 typedef struct _string * String;
 typedef struct _char * Char;
+typedef struct var * Var;
+typedef struct array * Array;
+typedef struct node * Node;
+
+typedef enum { false, true } boolean;
 
 struct _char {
     Char next;
@@ -29,6 +35,25 @@ struct _string {
 struct line {
     String str;
     Line next;
+};
+
+struct var {
+    String str;
+    int intValue;
+    double floatValue;
+    string type;
+};
+
+struct array {
+    Node start;
+    Node end;
+    unsigned int length;
+};
+
+struct node {
+    Var entity;
+    Node next;
+    Node prev;
 };
 
 // STRING FUNCTIONS

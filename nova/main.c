@@ -32,6 +32,17 @@ int main() {
     
     Line line = splitLine(nova_string);
 
+    Array tal = createArray();
+    Var nome = createVar(STRING, "Leandro Reis");
+    Var idade = createVar(INT, 19);
+    Var saldo = createVar(FLOAT, 434.22);
+    
+    push(tal, nome);
+    printArray(tal);
+    push(tal, idade);
+    push(tal, saldo);
+    printArray(tal);
+
     fclose(nova_file);
     return 0;
 }

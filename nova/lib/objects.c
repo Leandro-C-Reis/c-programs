@@ -8,8 +8,6 @@ void printString(String str) {
         printf("%c", now->value);
         now = now->next;
     }
-
-    printf("\n");
 }
 
 String createString(string text) {
@@ -92,5 +90,90 @@ Line splitLine(String text) {
     return start;
 }
 
+Var createVar(string type, ...) {
+    va_list ap;
+    va_start(ap, type);
+    
+    Var _var = malloc(sizeof(Var));
+    _var->type = malloc(sizeof(type));
+    _var->type = type;
 
+    if (strcmp(type, STRING) == false) {
+        _var->str = createString(va_arg(ap, string));
+    }
+    else if (strcmp(type, INT) == false) {
+        int _value = va_arg(ap, int);
+        _var->intValue = _value;
+    }
+    else if (strcmp(type, FLOAT) == false) {
+        double _value = va_arg(ap, double);
+        _var->floatValue = _value;
+    }
 
+    return _var;
+}
+
+void printFloat(double _value) {
+    printf("%f", _value);
+}
+
+void printInt(int _value) {
+    printf("%i", _value);
+}
+
+void print(Var _var, boolean break_line) {
+    if (strcmp(_var->type, STRING) == false) {
+        printString(_var->str);
+    }
+    else if (strcmp(_var->type, INT) == false) {
+        printInt(_var->intValue);
+    }
+    else if (strcmp(_var->type, FLOAT) == false) {
+        printFloat(_var->floatValue);
+    }
+
+    if (break_line) {
+        printf("\n");
+    }
+}
+
+Array createArray() {
+    Array _arr = malloc(sizeof(Array));
+
+    _arr->length = 0;
+    _arr->start = NULL;
+    _arr->end = NULL;
+
+    return _arr;
+}
+
+void push(Array _arr, Var _entity) {
+    Node _node = malloc(sizeof(Node));
+    _node->entity = _entity;
+    _node->prev = NULL;
+    _node->next = NULL;
+    
+    if (_arr->length == 0) {
+        _arr->start = _node;
+        _arr->end = _node;
+    }
+    else {
+        _arr->end->next = _node;
+        _node->prev = _arr->end;
+        _arr->end = _node;
+    }
+
+    _arr->length++;
+}
+
+void printArray(Array _arr) {
+    Node _now = _arr->start;
+
+    printf("[");
+    while (_now) {
+        print(_now->entity, false);
+        printf(", ");
+        _now = _now->next;
+    }
+    printf("]\n");
+}
