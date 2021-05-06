@@ -103,6 +103,10 @@ Var createVar(string type, ...) {
         Array _list = va_arg(ap, Array);
         _var->list = _list;
     }
+    else if (strcmp(type, OBJECT) == false) {
+        Object _obj = va_arg(ap, Object);
+        _var->obj = _obj;
+    }
 
     return _var;
 }
@@ -134,4 +138,41 @@ Array createArray() {
     _arr->end = NULL;
 
     return _arr;
+}
+
+Object createObj() {
+    Object _obj = malloc(sizeof(Object));
+    _obj->start = NULL;
+    _obj->end = NULL;
+
+    return _obj;
+}
+
+void addProperty(Object _obj, string key, Var value) {
+    Property _prop = malloc(sizeof(Property));
+    _prop->key = key;
+    _prop->value = value;
+    _prop->next = NULL;
+
+    if (_obj->start) {
+        _obj->end->next = _prop;
+        _obj->end = _prop;
+    }
+    else {
+        _obj->start = _prop;
+        _obj->end = _prop;
+    }
+}
+
+Var getProp(Object _obj, string key) {
+    Property _prop = _obj->start;
+    
+    while (_prop) {
+        if (strcmp(_prop->key, key) == false) {
+            return _prop->value;
+        }
+        _prop = _prop->next;
+    }
+
+    return createVar(UNDEFINED);
 }

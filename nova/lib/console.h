@@ -9,7 +9,7 @@ typedef struct _con {
     Printable log;
 } Console;
 
-void printString(String);
+void printString(String, boolean);
 
 void printInt(int);
 

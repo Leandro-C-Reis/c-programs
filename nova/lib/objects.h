@@ -10,6 +10,8 @@
 #define INT "int"
 #define FLOAT "float"
 #define ARRAY "array"
+#define OBJECT "object"
+#define UNDEFINED "undefined"
 
 // Define Objects and structs
 
@@ -20,6 +22,8 @@ typedef struct _char * Char;
 typedef struct var * Var;
 typedef struct array * Array;
 typedef struct node * Node;
+typedef struct object * Object;
+typedef struct property * Property;
 
 typedef enum { false, true } boolean;
 
@@ -43,6 +47,8 @@ struct var {
     int intValue;
     double floatValue;
     Array list;
+    Object obj;
+    
     string type;
 };
 
@@ -56,6 +62,17 @@ struct node {
     Var entity;
     Node next;
     Node prev;
+};
+
+struct property {
+    string key;
+    Var value;
+    Property next;
+};
+
+struct object {
+    Property start;
+    Property end;
 };
 
 // STRING FUNCTIONS
