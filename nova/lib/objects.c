@@ -1,15 +1,5 @@
 #include "objects.h"
 
-void printString(String str) {
-    Char now = str->start;
-    
-    while (now)
-    {
-        printf("%c", now->value);
-        now = now->next;
-    }
-}
-
 String createString(string text) {
     int len = strlen(text);
 
@@ -109,42 +99,12 @@ Var createVar(string type, ...) {
         double _value = va_arg(ap, double);
         _var->floatValue = _value;
     }
+    else if (strcmp(type, ARRAY) == false) {
+        Array _list = va_arg(ap, Array);
+        _var->list = _list;
+    }
 
     return _var;
-}
-
-void printFloat(double _value) {
-    printf("%f", _value);
-}
-
-void printInt(int _value) {
-    printf("%i", _value);
-}
-
-void print(Var _var, boolean break_line) {
-    if (strcmp(_var->type, STRING) == false) {
-        printString(_var->str);
-    }
-    else if (strcmp(_var->type, INT) == false) {
-        printInt(_var->intValue);
-    }
-    else if (strcmp(_var->type, FLOAT) == false) {
-        printFloat(_var->floatValue);
-    }
-
-    if (break_line) {
-        printf("\n");
-    }
-}
-
-Array createArray() {
-    Array _arr = malloc(sizeof(Array));
-
-    _arr->length = 0;
-    _arr->start = NULL;
-    _arr->end = NULL;
-
-    return _arr;
 }
 
 void push(Array _arr, Var _entity) {
@@ -166,14 +126,12 @@ void push(Array _arr, Var _entity) {
     _arr->length++;
 }
 
-void printArray(Array _arr) {
-    Node _now = _arr->start;
+Array createArray() {
+    Array _arr = malloc(sizeof(Array));
 
-    printf("[");
-    while (_now) {
-        print(_now->entity, false);
-        printf(", ");
-        _now = _now->next;
-    }
-    printf("]\n");
+    _arr->length = 0;
+    _arr->start = NULL;
+    _arr->end = NULL;
+
+    return _arr;
 }

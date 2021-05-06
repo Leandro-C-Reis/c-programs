@@ -9,6 +9,7 @@
 #define STRING "string"
 #define INT "int"
 #define FLOAT "float"
+#define ARRAY "array"
 
 // Define Objects and structs
 
@@ -41,6 +42,7 @@ struct var {
     String str;
     int intValue;
     double floatValue;
+    Array list;
     string type;
 };
 
@@ -79,6 +81,5 @@ void pushChar(String, char);
 /**
  * Format and print on screen String object
 */
-void printString(String);
 
 #endif
