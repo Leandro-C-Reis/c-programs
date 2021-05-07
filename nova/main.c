@@ -1,5 +1,6 @@
 #include "lib/objects.c"
 #include "lib/console.c"
+#include "lib/transpiler.c"
 
 string readFile(FILE * file) {
     int count = 0;
@@ -32,6 +33,8 @@ int main() {
     string nova_text = readFile(nova_file);
     String nova_string = createString(nova_text);
     Line line = splitLine(nova_string);
+
+    // transpile_v1(nova_string);
     
     fclose(nova_file);
     return 0;

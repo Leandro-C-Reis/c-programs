@@ -10,6 +10,7 @@ String createString(string text) {
     end->next = NULL;
     str->start = NULL;
     str->end = end;
+    str->length = len;
 
     if (!len) {
         str->start = end;
@@ -46,6 +47,7 @@ void pushChar(String str, char c) {
 
     str->end->next = _char;
     str->end = _char;
+    str->length += 1;
 }
 
 Line splitLine(String text) {
@@ -106,6 +108,10 @@ Var createVar(string type, ...) {
     else if (strcmp(type, OBJECT) == false) {
         Object _obj = va_arg(ap, Object);
         _var->obj = _obj;
+    }
+    else if (strcmp(type, BOOLEAN)) {
+        boolean _bool = va_arg(ap, boolean);
+        _var->_bool = _bool;
     }
 
     return _var;
@@ -176,3 +182,27 @@ Var getProp(Object _obj, string key) {
 
     return createVar(UNDEFINED);
 }
+
+boolean stringCompare(String _string1, String _string2) {
+    Char _char1 = _string1->start;
+    Char _char2 = _string2->start;
+
+    if (_string1->length != _string2->length) {
+        return false;
+    }
+    else if (_string1->length == 0) {
+        return true;
+    }
+    else {
+        while (_char1) {
+            if (_char1->value != _char2->value) {
+                return false;
+            }
+            _char1 = _char1->next;
+            _char2 = _char2->next;
+        }
+
+        return true;
+    }
+}
+

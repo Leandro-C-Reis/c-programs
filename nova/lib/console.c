@@ -39,6 +39,15 @@ void printInt(int _value) {
     printf("%i", _value);
 }
 
+void printBool(boolean _val) {
+    if (_val == true) {
+        printf("true");
+    }
+    else {
+        printf("false");
+    }
+}
+
 void printObj(Object _obj) {
     if (!_obj->start) {
         printf("{}");
@@ -99,6 +108,9 @@ void print(Var _var) {
     }
     else if (strcmp(_var->type, UNDEFINED) == false) {
         printf("undefined");
+    }
+    else if (strcmp(_var->type, BOOLEAN) == false) {
+        printBool(_var->_bool);
     }
 
     if (break_line) {

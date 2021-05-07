@@ -12,6 +12,7 @@
 #define ARRAY "array"
 #define OBJECT "object"
 #define UNDEFINED "undefined"
+#define BOOLEAN "boolean"
 
 // Define Objects and structs
 
@@ -35,6 +36,7 @@ struct _char {
 struct _string {
     Char start;
     Char end;
+    int length;
 };
 
 struct line {
@@ -48,6 +50,7 @@ struct var {
     double floatValue;
     Array list;
     Object obj;
+    boolean _bool;
     
     string type;
 };
